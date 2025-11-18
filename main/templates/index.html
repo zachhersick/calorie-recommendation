@@ -1,0 +1,44 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>{% block title %}Calorie Recommendation{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+</head>
+<body>
+    <div id="app" role="application" aria-label="Calorie Recommendation app">
+        <header>
+            <div class="brand" aria-hidden="false">
+                <span class="logo" aria-hidden="true"></span>
+                <span class="title">{% block app_name %}Calorie Recommendation{% endblock %}</span>
+            </div>
+            <nav aria-label="primary">
+                <!-- Optional nav controls -->
+            </nav>
+        </header>
+
+        <main>
+            <section class="surface" role="main" aria-labelledby="main-heading">
+                <div class="empty-state">
+                    <h1 id="main-heading">{% block heading %}Welcome{% endblock %}</h1>
+                    <p>{% block description %}Start building your app here. This container is full-height and responsive across devices.{% endblock %}</p>
+                </div>
+
+                {% block content %}
+                <!-- Replace this block with your application's components -->
+                {% endblock %}
+            </section>
+        </main>
+
+        <footer>
+            <div style="color:var(--muted);font-size:0.9rem">© {% now "Y" %} Calorie Recommendation</div>
+            <div style="color:var(--muted);font-size:0.9rem">v0.1</div>
+        </footer>
+    </div>
+
+</body>
+</html>
