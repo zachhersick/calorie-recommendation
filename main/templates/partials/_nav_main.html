@@ -1,0 +1,26 @@
+<div class="nav-wrapper">
+            <div class="brand"><a href="{% url 'home' %}">Calorie Recommendation</a></div>
+
+            <nav class="main-nav">
+                <ul>
+                    <a href="{% url 'home' %}">Home</a></li>
+                    <a href="{% url 'new_patient' %}">Add New Patient</a></li> 
+                    <a href="{% url 'predict' %}">Calorie Prediction</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-session">
+                {% if user.is_authenticated %}
+                    <span class="username">{{ user.username }}</span>
+                    {% if user.username == "su" %}
+                        <a class="admin-link" href="/admin/">Admin</a>
+                    {% endif %}
+                    <form method="post" action="{% url 'users:logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-ghost">Logout</button>
+                    </form>
+                {% else %}
+                    <a class="login-link" href="{% url 'users:login' %}">Login</a>
+                {% endif %}
+    </div>
+</div>

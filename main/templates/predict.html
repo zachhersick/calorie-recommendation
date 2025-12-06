@@ -1,0 +1,12 @@
+{% extends "index_base.html" %} 
+
+{% block title %} Calorie Recommendation {%endblock %} 
+
+{% block header %} Enter patient info {% endblock %} 
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit">Predict</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Calorie Recommendation{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}">
+</head>
+
+<body>
+    <div id="app">
+        {% include "partials/_nav_main.html" %}
+            <h1>{% block header %}Welcome to the Calorie Recommendation{% endblock %}</h1>
+            {% block content %}{% endblock %}
+        </main>
+        {% include "partials/_footer.html" %}
+    </div>
+</body>
+</html>
