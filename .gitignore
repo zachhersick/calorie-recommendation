@@ -1,0 +1,92 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+*.pyo
+
+# ===== Virtual environments =====
+.venv/
+venv/
+env/
+ENV/
+.conda/
+pip-wheel-metadata/
+
+# ===== Packaging / build =====
+build/
+dist/
+*.egg-info/
+.eggs/
+wheelhouse/
+
+# ===== Pytest / coverage =====
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+nosetests.xml
+test-results.xml
+
+# ===== Type checkers / linters =====
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
+
+# ===== Jupyter =====
+.ipynb_checkpoints/
+
+# ===== Logs =====
+*.log
+
+# ===== OS / editor =====
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# ===== Django =====
+*.sqlite3
+db.sqlite3
+local_settings.py
+.env
+.env.*
+*.env
+
+# Django media / static (adjust if you want to keep them)
+media/
+staticfiles/
+
+# ===== ML / data artifacts =====
+# Data
+data/
+datasets/
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.joblib
+
+# Models / checkpoints
+models/
+checkpoints/
+*.keras
+*.ckpt
+*.pb
+saved_model/
+
+# TensorBoard
+runs/
+logs/
+
+# ===== Misc =====
+*.tmp
+*.bak

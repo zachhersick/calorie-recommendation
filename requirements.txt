@@ -1,0 +1,12 @@
+# requirements.txt
+# Recommended Python: 3.12.x
+# (All pinned packages below have wheels/support that align with Python 3.12.)
+# If you're on Apple Silicon and need tensorflow-metal GPU acceleration,
+# you may have to use Python 3.11 instead. :contentReference[oaicite:0]{index=0}
+
+Django==5.2.9
+tensorflow==2.20.0
+pandas==2.3.3
+numpy==2.3.5
+scikit-learn==1.7.2
+matplotlib==3.10.7
