@@ -7,6 +7,7 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 import matplotlib.pyplot as plt
+import joblib
 
 #load data
 df = pd.read_csv('diet_recommendations_dataset.csv', sep=',')
@@ -76,3 +77,10 @@ plt.show()
 test_mse, test_mae = model.evaluate(X_test, y_test, verbose=0)
 print(f"Test MSE: {test_mse:.2f}")
 print(f"Test MAE: {test_mae:.2f}")
+
+joblib.dump(scaler, 'scaler.pkl')
+model.save('calorie_model.h5')
+
+import json
+with open('feature_columns.json', 'w') as f:
+    json.dump(list(X.columns), f)

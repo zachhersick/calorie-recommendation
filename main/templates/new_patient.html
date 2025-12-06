@@ -1,0 +1,17 @@
+{% extends "index_base.html" %}
+
+{% block title %} New Demographic Information {% endblock %}
+
+{% block header %} Enter your information {% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <h2> Enter your information </h2>
+        <form action="{% url 'new_patient' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" value="Add Information">Add Information</button>
+        </form>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "index_base.html" %} 
+
+{% block title %} Calorie Recommendation {%endblock %} 
+
+{% block header %} Prediction Result {% endblock %} 
+
+{% block content %}
+    <p>Name: {{ patient.name }}</p>
+    <p>Age: {{ patient.age }}</p>
+    <p>Gender: {{ patient.get_gender_display }}</p>
+    <p>BMI: {{ patient.bmi }}</p>
+
+    <p><strong>Predicted Daily Caloric Intake:</strong> {{ prediction|floatformat:0 }} kcal</p>
+
+    <a href="{% url 'predict' %}">Predict another</a>
+{% endblock %}
+
+
