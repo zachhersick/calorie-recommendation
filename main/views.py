@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import time
 from .forms import PatientForm
 from .ml_predict import predict_daily_caloric_intake
 
@@ -30,6 +31,7 @@ def predict_view(request):
         form = PatientForm(request.POST)
         if form.is_valid():
             patient = form.save()
+            time.sleep(1.6)  # brief pause to let the UI show processing
             prediction = predict_daily_caloric_intake(patient)
 
             return render(request, "prediction_result.html", {

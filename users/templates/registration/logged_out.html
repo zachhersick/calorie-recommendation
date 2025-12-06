@@ -1,12 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Football Game</title>
-</head>
-<body>
-    <h2>You have been logged out</h2>
-    <p>Thank you for using the Football Game application.</p>
-    <a href="{% url 'users:login' %}">Login again</a>
-</body>
+{% extends "index_base.html" %}
+
+{% block title %}Logged out | Calorie Recommendation{% endblock %}
+{% block nav %}{% endblock %}
+{% block header %}You're signed out{% endblock %}
+
+{% block content %}
+    <div class="pill">Session ended</div>
+    <h2>Thanks for using the Calorie Recommendation app.</h2>
+    <p class="helper-text">You can sign back in anytime to add patients or run another prediction.</p>
+
+    <div class="spacer"></div>
+    <a class="inline-link" href="{% url 'users:login' %}">Log in again →</a>
+{% endblock %}

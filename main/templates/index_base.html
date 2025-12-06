@@ -9,13 +9,22 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}">
 </head>
 
-<body>
-    <div id="app">
-        {% include "partials/_nav_main.html" %}
-            <h1>{% block header %}Welcome to the Calorie Recommendation{% endblock %}</h1>
-            {% block content %}{% endblock %}
+<body class="page-body">
+    <div id="app" class="page-shell">
+        {% block nav %}
+            {% include "partials/_nav_main.html" %}
+        {% endblock %}
+        <main class="main-content">
+            <header class="page-header">
+                <p class="eyebrow">Nutrition Assistant</p>
+                <h1>{% block header %}Welcome to the Calorie Recommendation{% endblock %}</h1>
+            </header>
+            <section class="content-card">
+                {% block content %}{% endblock %}
+            </section>
         </main>
         {% include "partials/_footer.html" %}
     </div>
+    {% block extra_scripts %}{% endblock %}
 </body>
 </html>

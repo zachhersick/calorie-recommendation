@@ -5,8 +5,65 @@
 {% block header %} Enter patient info {% endblock %} 
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %} {{ form.as_p }}
-        <button type="submit">Predict</button>
+    <p class="helper-text">Provide the essentials and we will calculate a personalized daily calorie target. The model runs locally and finishes in a moment.</p>
+
+    <form id="predict-form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button id="predict-submit" type="submit">Run prediction</button>
     </form>
+
+    <div id="loading-overlay" class="loading-overlay" aria-hidden="true">
+        <div style="text-align:center;">
+            <div class="loader" role="status"></div>
+            <div class="loader-text">Running the model…</div>
+            <div class="progress-block">
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" aria-hidden="true"></div>
+                </div>
+                <div class="progress-text" id="progress-step">Preparing inputs…</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('predict-form');
+    const overlay = document.getElementById('loading-overlay');
+    const submitBtn = document.getElementById('predict-submit');
+    const progressText = document.getElementById('progress-step');
+    const steps = [
+        'Validating inputs…',
+        'Scaling features…',
+        'Running prediction…',
+        'Formatting result…'
+    ];
+    let stepIndex = 0;
+    let stepInterval;
+
+    function startProgressText() {
+        if (!progressText) return;
+        progressText.textContent = steps[0];
+        stepInterval = setInterval(() => {
+            stepIndex = (stepIndex + 1) % steps.length;
+            progressText.textContent = steps[stepIndex];
+        }, 1100);
+    }
+
+    if (form) {
+        form.addEventListener('submit', function () {
+            if (overlay) {
+                overlay.classList.add('active');
+            }
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Processing...';
+            }
+            startProgressText();
+        });
+    }
+});
+</script>
 {% endblock %}
