@@ -5,5 +5,23 @@
 {% block header %} Welcome to the Calorie Recommendation {% endblock %}
 
 {% block content %}
-    <p>Welcome to the Calorie Recommendation</p>
+    <div class="pill">Smarter calorie targets</div>
+    <h2>Personalized nutrition, powered by your patient data</h2>
+    <p>Input a few health markers and get a tailored daily caloric intake recommendation in seconds. Built for clinicians and nutrition enthusiasts who want quick, data-backed guidance.</p>
+
+    <div class="result-highlight">
+        <div class="result-card">
+            <strong>Quick intake estimate</strong>
+            <div class="result-value">Instant</div>
+            <p class="helper-text">Streamlined input form with lean defaults.</p>
+        </div>
+        <div class="result-card">
+            <strong>Patient snapshots</strong>
+            <div class="result-value">Organized</div>
+            <p class="helper-text">See the key stats that inform every prediction.</p>
+        </div>
+    </div>
+
+    <div class="spacer"></div>
+    <a class="inline-link" href="{% url 'predict' %}">Start a prediction →</a>
 {% endblock %}

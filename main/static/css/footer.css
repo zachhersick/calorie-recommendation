@@ -1,6 +1,9 @@
 .site-footer {
-        background-color: #0abaff;
-        text-align: center;
-        padding: 10px;
-        border: 2px solid black;
+    margin-top: auto;
+    padding: 16px;
+    text-align: center;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.02), rgba(110, 231, 255, 0.04));
+    border-radius: 18px 18px 0 0;
 }

@@ -1,11 +1,26 @@
-<body>
-  <h2>Login</h2>
-  {% if form.errors %}
-  <p>Your username and password didn't match. Please try again.</p>
-  {% endif %}
-  <form action="{% url 'users:login' %}" method="post">
-    {% csrf_token %} {{ form.as_p }}
-    <button name="submit">Log in</button>
-    <input type="hidden" name="next" value="{% url 'home' %}" />
-  </form>
-</body>
+{% extends "index_base.html" %}
+
+{% block title %}Login | Calorie Recommendation{% endblock %}
+{% block nav %}{% endblock %}
+{% block header %}Sign in to continue{% endblock %}
+
+{% block content %}
+    {% if form.errors %}
+        <div class="result-card" style="margin-bottom:12px;">
+            <strong>Login issue</strong>
+            <p class="helper-text">Your username and password didn't match. Please try again.</p>
+        </div>
+    {% endif %}
+
+    <p class="helper-text">Access your dashboard to add patients and run calorie predictions.</p>
+
+    <form action="{% url 'users:login' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">Log in</button>
+        <input type="hidden" name="next" value="{% url 'home' %}" />
+    </form>
+
+    <div class="spacer"></div>
+    <a class="inline-link" href="{% url 'home' %}">← Back to home</a>
+{% endblock %}

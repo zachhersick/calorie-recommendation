@@ -5,14 +5,25 @@
 {% block header %} Prediction Result {% endblock %} 
 
 {% block content %}
-    <p>Name: {{ patient.name }}</p>
-    <p>Age: {{ patient.age }}</p>
-    <p>Gender: {{ patient.get_gender_display }}</p>
-    <p>BMI: {{ patient.bmi }}</p>
+    <div class="pill">Model output</div>
 
-    <p><strong>Predicted Daily Caloric Intake:</strong> {{ prediction|floatformat:0 }} kcal</p>
+    <div class="result-highlight">
+        <div class="result-card">
+            <strong>Predicted daily caloric intake</strong>
+            <div class="result-value">{{ prediction|floatformat:0 }} kcal</div>
+            <p class="helper-text">Rounded to the nearest kcal for easy tracking.</p>
+        </div>
+    </div>
 
-    <a href="{% url 'predict' %}">Predict another</a>
+    <h2>Patient snapshot</h2>
+    <ul class="meta-list">
+        <li><strong>Name</strong><br>{{ patient.name }}</li>
+        <li><strong>Age</strong><br>{{ patient.age }}</li>
+        <li><strong>Gender</strong><br>{{ patient.get_gender_display }}</li>
+        <li><strong>BMI</strong><br>{{ patient.bmi }}</li>
+    </ul>
+
+    <div class="spacer"></div>
+    <a class="inline-link" href="{% url 'predict' %}">← Run another prediction</a>
 {% endblock %}
-
 
