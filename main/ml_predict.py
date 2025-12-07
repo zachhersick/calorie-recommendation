@@ -29,7 +29,6 @@ def patient_to_feature_vector(patient):
     base["Age"] = patient.age
     base["Weight_kg"] = patient.weight_kg
     base["Height_cm"] = patient.height_cm
-    base["BMI"] = patient.bmi
     base["Weekly_Exercise_Hours"] = patient.weekly_exercise_hours
 
     # categorical: GENDER

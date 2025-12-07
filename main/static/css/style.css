@@ -156,7 +156,7 @@ input, select, textarea {
     padding: 12px 14px;
     border-radius: 12px;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(5, 8, 17, 0.65);
     color: var(--text);
     font-size: 15px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
@@ -181,6 +181,7 @@ button, .btn {
     cursor: pointer;
     box-shadow: 0 14px 35px rgba(56, 189, 248, 0.35);
     transition: transform 0.15s ease, box-shadow 0.2s ease;
+    text-decoration: none;
 }
 
 button:hover, .btn:hover {

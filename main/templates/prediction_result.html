@@ -1,17 +1,16 @@
-{% extends "index_base.html" %} 
+{% extends "index_base.html" %}
 
-{% block title %} Calorie Recommendation {%endblock %} 
-
-{% block header %} Prediction Result {% endblock %} 
+{% block title %}Prediction Result{% endblock %}
+{% block header %}Personalized Calorie Analysis{% endblock %}
 
 {% block content %}
     <div class="pill">Model output</div>
 
     <div class="result-highlight">
         <div class="result-card">
-            <strong>Predicted daily caloric intake</strong>
+            <strong>Recommended daily calories</strong>
             <div class="result-value">{{ prediction|floatformat:0 }} kcal</div>
-            <p class="helper-text">Rounded to the nearest kcal for easy tracking.</p>
+            <p class="helper-text">Rounded for quick logging and goal setting.</p>
         </div>
     </div>
 
@@ -20,10 +19,13 @@
         <li><strong>Name</strong><br>{{ patient.name }}</li>
         <li><strong>Age</strong><br>{{ patient.age }}</li>
         <li><strong>Gender</strong><br>{{ patient.get_gender_display }}</li>
-        <li><strong>BMI</strong><br>{{ patient.bmi }}</li>
+        <li><strong>Activity level</strong><br>{{ patient.physical_activity_level }}</li>
     </ul>
 
     <div class="spacer"></div>
-    <a class="inline-link" href="{% url 'predict' %}">← Run another prediction</a>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="btn" href="{% url 'view_patients' %}">Run another prediction</a>
+        <a class="btn btn-ghost" href="{% url 'new_patient' %}">Add another patient</a>
+    </div>
 {% endblock %}
 

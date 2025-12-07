@@ -5,12 +5,14 @@
 {% block header %} Enter patient info {% endblock %} 
 
 {% block content %}
-    <p class="helper-text">Provide the essentials and we will calculate a personalized daily calorie target. The model runs locally and finishes in a moment.</p>
+    <div class="pill">Calorie prediction</div>
+    <h2>Provide the essentials to get a tailored daily calorie target</h2>
+    <p class="helper-text">The model runs locally and finishes in a moment. You’ll see each step while it processes.</p>
 
     <form id="predict-form" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button id="predict-submit" type="submit">Run prediction</button>
+        <button id="predict-submit" class="btn" type="submit">Run prediction</button>
     </form>
 
     <div id="loading-overlay" class="loading-overlay" aria-hidden="true">
@@ -28,6 +30,7 @@
 {% endblock %}
 
 {% block extra_scripts %}
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('predict-form');
