@@ -8,6 +8,12 @@ class Patient(models.Model):
         ('F', 'Female'),
     ]
     
+    ACTIVITY_CHOICES = [
+        ('Sedentary', 'Sedentary'),
+        ('Moderate', 'Moderate'),
+        ('Active', 'Active'),
+    ]
+    
     name = models.CharField(default='user')
     age = models.IntegerField()
     gender = models.CharField(
@@ -18,10 +24,13 @@ class Patient(models.Model):
     )
     weight_kg = models.FloatField()
     height_cm = models.IntegerField()
-    bmi = models.FloatField()
-    physical_activity_level = models.CharField(max_length=50)
-    daily_caloric_intake = models.IntegerField()
+    physical_activity_level = models.CharField(
+        max_length=50,
+        choices=ACTIVITY_CHOICES,
+        null=True,
+        blank=True
+    )
     weekly_exercise_hours = models.FloatField()
     
     def __str__(self):
-        return f"Patient {self.name} — Age: {self.age}, Gender: {self.gender}, BMI: {self.bmi}"
+        return f"Patient {self.name} — Age: {self.age}, Gender: {self.gender}"

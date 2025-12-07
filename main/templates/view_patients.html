@@ -1,0 +1,29 @@
+{% extends "index_base.html" %}
+
+{% block title %}View Patients{% endblock %}
+
+{% block header %}Select a patient to run a prediction{% endblock %}
+
+{% block content %}
+    <p class="helper-text">Choose a patient and run a fresh calorie prediction. Add new patients anytime.</p>
+
+    {% if patients %}
+        <div class="result-highlight">
+            {% for patient in patients %}
+                <div class="result-card">
+                    <strong>{{ patient.name }}</strong>
+                    <div class="result-value" style="font-size:20px;">Age {{ patient.age }}</div>
+                    <p class="helper-text" style="margin-bottom:12px;">
+                        Gender: {{ patient.get_gender_display }}{% if patient.physical_activity_level %} · Activity: {{ patient.physical_activity_level }}{% endif %}
+                    </p>
+                    <a class="btn" href="{% url 'predict_result' patient.id %}">Run prediction</a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="spacer"></div>
+        <a class="btn btn-ghost" href="{% url 'new_patient' %}">Add patient</a>
+    {% else %}
+        <p class="helper-text">No patients yet. Add your first patient to run a prediction.</p>
+        <a class="btn" href="{% url 'new_patient' %}">Add patient</a>
+    {% endif %}
+{% endblock %}

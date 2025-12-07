@@ -10,9 +10,7 @@ class PatientForm(forms.ModelForm):
             'gender',
             'weight_kg',
             'height_cm',
-            'bmi',
             'physical_activity_level',
-            'daily_caloric_intake',
             'weekly_exercise_hours',
         ]
 
@@ -22,9 +20,7 @@ class PatientForm(forms.ModelForm):
             'gender': 'Gender',
             'weight_kg': 'Weight (kg)',
             'height_cm': 'Height (cm)',
-            'bmi': 'BMI',
             'physical_activity_level': 'Physical Activity Level',
-            'daily_caloric_intake': 'Daily Caloric Intake',
             'weekly_exercise_hours': 'Weekly Exercise Hours',
         }
 
@@ -34,8 +30,6 @@ class PatientForm(forms.ModelForm):
             'gender': forms.Select(attrs={'class': 'form-control'}),
             'weight_kg': forms.NumberInput(attrs={'class': 'form-control'}),
             'height_cm': forms.NumberInput(attrs={'class': 'form-control'}),
-            'bmi': forms.NumberInput(attrs={'class': 'form-control'}),
-            'physical_activity_level': forms.TextInput(attrs={'class': 'form-control'}),
-            'daily_caloric_intake': forms.NumberInput(attrs={'class': 'form-control'}),
+            'physical_activity_level': forms.Select(attrs={'class': 'form-control'}),
             'weekly_exercise_hours': forms.NumberInput(attrs={'class': 'form-control'}),
         }
