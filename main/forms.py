@@ -1,5 +1,5 @@
 from django import forms
-from .models import Patient
+from .models import Patient, History
 
 class PatientForm(forms.ModelForm):
     class Meta:
@@ -32,4 +32,28 @@ class PatientForm(forms.ModelForm):
             'height_cm': forms.NumberInput(attrs={'class': 'form-control'}),
             'physical_activity_level': forms.Select(attrs={'class': 'form-control'}),
             'weekly_exercise_hours': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+        
+class TrackCaloriesForm(forms.ModelForm):
+    class Meta:
+        model = History
+        fields = [
+            'day',
+            'month',
+            'year',
+            'calories',
+        ]
+
+        labels = {
+            'day': 'Day',
+            'month': 'Month',
+            'year': 'Year',
+            'calories': 'Calories',
+        }
+
+        widgets = {
+            'day': forms.NumberInput(attrs={'class': 'form-control'}),
+            'month': forms.NumberInput(attrs={'class': 'form-control'}),
+            'year': forms.NumberInput(attrs={'class': 'form-control'}),
+            'calories': forms.NumberInput(attrs={'class': 'form-control'}),
         }

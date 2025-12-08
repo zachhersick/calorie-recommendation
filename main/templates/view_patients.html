@@ -17,6 +17,8 @@
                         Gender: {{ patient.get_gender_display }}{% if patient.physical_activity_level %} · Activity: {{ patient.physical_activity_level }}{% endif %}
                     </p>
                     <a class="btn" href="{% url 'predict_result' patient.id %}">Run prediction</a>
+                    <a class="btn btn-small" href="{% url 'view_history' patient.id %}">View history</a>
+
                 </div>
             {% endfor %}
         </div>
