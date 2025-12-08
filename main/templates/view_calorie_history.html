@@ -1,0 +1,87 @@
+{% extends "index_base.html" %}
+
+{% block title %}Calorie History{% endblock %}
+
+{% block header %}Calorie Tracking for {{ patient.name }}{% endblock %}
+
+{% block content %}
+
+<p class="helper-text">
+    This shows the logged daily calorie entries for {{ patient.name }}.  
+    Dates appear chronologically with recorded intake.
+</p>
+
+<div style="max-width:800px; margin: 30px auto;">
+    <canvas id="historyChart" width="800" height="300"></canvas>
+</div>
+
+{% if history %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Calories</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in history %}
+                <tr>
+                    <td>{{ entry.month }}/{{ entry.day }}/{{ entry.year }}</td>
+                    <td>{{ entry.calories }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p class="helper-text">No logged history yet.</p>
+{% endif %}
+
+<div class="button-row">
+    <a class="btn btn-ghost" href="{% url 'track_calories' %}">Add entry</a>
+    <a class="btn" href="{% url 'view_patients' %}">Back to patients</a>
+</div>
+
+{% endblock %}
+
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const labels = {{ labels|safe }};
+    const values = {{ values|safe }};
+
+    const ctx = document.getElementById('historyChart');
+
+    if (labels.length > 0) {
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Calories per Day',
+                    data: values,
+                    borderWidth: 2,
+                    borderColor: 'rgb(80, 140, 255)',
+                    backgroundColor: 'rgba(80, 140, 255, 0.25)',
+                    tension: 0.3,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: Math.max(...values, 10)
+                    }
+                }
+            }
+        });
+    }
+</script>
+{% endblock %}

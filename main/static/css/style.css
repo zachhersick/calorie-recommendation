@@ -276,6 +276,13 @@ button:active, .btn:active {
     font-size: 14px;
 }
 
+.button-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 26px;
+}
+
 .spacer {
     height: 16px;
 }

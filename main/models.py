@@ -34,3 +34,13 @@ class Patient(models.Model):
     
     def __str__(self):
         return f"Patient {self.name} — Age: {self.age}, Gender: {self.gender}"
+    
+class History(models.Model):
+    month = models.IntegerField()
+    day = models.IntegerField()
+    year = models.IntegerField()
+    calories = models.IntegerField()
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"{self.patient.name} — {self.month}/{self.day}/{self.year}: {self.calories} cal"

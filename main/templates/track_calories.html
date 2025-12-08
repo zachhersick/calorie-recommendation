@@ -1,0 +1,24 @@
+{% extends "index_base.html" %}
+
+{% block title %} Track Calories {% endblock %}
+
+{% block header %} Enter Calories {% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <h2>Enter your information</h2>
+    <form action="{% url 'track_calories' %}" method="post">
+        {% csrf_token %}
+
+        <label>Select Patient</label>
+        <select name="patient_id" required>
+            {% for patient in patients %}
+                <option value="{{ patient.id }}">{{ patient.name }}</option>
+            {% endfor %}
+        </select>
+
+        {{ form.as_p }}
+        <button type="submit">Add Information</button>
+    </form>
+{% endif %}
+{% endblock %}
