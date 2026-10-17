@@ -1,13 +1,14 @@
-from django.contrib import admin
 from django.urls import path
+
 from . import views
-from .views import predict_result
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('patients/new/', views.new_patient, name='new_patient'),
-    path('predict/<int:patient_id>/', views.predict_result, name='predict_result'),
-    path('patients/view/', views.view_patients, name='view_patients'),
-    path('patients/history/<int:patient_id>/', views.view_history, name='view_history'),
-    path('patients/track/', views.new_history, name='track_calories')
+    path("", views.home, name="home"),
+    path("patients/", views.view_patients, name="view_patients"),
+    path("patients/new/", views.new_patient, name="new_patient"),
+    path("patients/<int:patient_id>/", views.patient_detail, name="patient_detail"),
+    path("patients/<int:patient_id>/edit/", views.edit_patient, name="edit_patient"),
+    path("patients/<int:patient_id>/delete/", views.delete_patient, name="delete_patient"),
+    path("patients/<int:patient_id>/history/", views.view_history, name="view_history"),
+    path("track/", views.new_history, name="track_calories"),
 ]

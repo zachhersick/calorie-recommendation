@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Sign up | Calorie Recommendation{% endblock %}
+{% block nav %}{% endblock %}
+{% block header %}Create an account{% endblock %}
+
+{% block content %}
+    <form action="{% url 'users:signup' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Sign up</button>
+    </form>
+
+    <div class="spacer"></div>
+    <p class="helper-text">Already have an account? <a href="{% url 'users:login' %}">Log in</a>.</p>
+{% endblock %}

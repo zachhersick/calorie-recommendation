@@ -95,6 +95,11 @@
         position: static;
     }
 
+    .main-nav {
+        flex: none;
+        width: 100%;
+    }
+
     .main-nav ul {
         flex-wrap: wrap;
         gap: 6px;

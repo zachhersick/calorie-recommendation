@@ -55,6 +55,7 @@ db.sqlite3
 local_settings.py
 .env
 .env.*
+!.env.example
 *.env
 
 # Django media / static (adjust if you want to keep them)
