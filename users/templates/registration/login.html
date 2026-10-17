@@ -1,26 +1,25 @@
-{% extends "index_base.html" %}
+{% extends "base.html" %}
 
-{% block title %}Login | Calorie Recommendation{% endblock %}
+{% block title %}Log in | Calorie Recommendation{% endblock %}
 {% block nav %}{% endblock %}
-{% block header %}Sign in to continue{% endblock %}
+{% block header %}Log in{% endblock %}
 
 {% block content %}
     {% if form.errors %}
-        <div class="result-card" style="margin-bottom:12px;">
+        <div class="result-card form-alert">
             <strong>Login issue</strong>
             <p class="helper-text">Your username and password didn't match. Please try again.</p>
         </div>
     {% endif %}
 
-    <p class="helper-text">Access your dashboard to add patients and run calorie predictions.</p>
-
     <form action="{% url 'users:login' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button name="submit">Log in</button>
-        <input type="hidden" name="next" value="{% url 'home' %}" />
+        <input type="hidden" name="next" value="{{ next }}">
+        <button type="submit">Log in</button>
     </form>
 
     <div class="spacer"></div>
-    <a class="inline-link" href="{% url 'home' %}">← Back to home</a>
+    <p class="helper-text">No account? <a href="{% url 'users:signup' %}">Sign up</a>.</p>
+    <a class="inline-link" href="{% url 'home' %}">&larr; Back to home</a>
 {% endblock %}

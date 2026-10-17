@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{% if patient %}Edit {{ patient.name }}{% else %}New patient{% endif %} | Calorie Recommendation{% endblock %}
+
+{% block header %}{% if patient %}Edit {{ patient.name }}{% else %}New patient{% endif %}{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">{% if patient %}Save changes{% else %}Add patient{% endif %}</button>
+    </form>
+{% endblock %}

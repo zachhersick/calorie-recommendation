@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}{{ patient.name }} | Calorie Recommendation{% endblock %}
+{% block header %}{{ patient.name }}{% endblock %}
+
+{% block content %}
+    <div class="pill">Mifflin-St Jeor estimate</div>
+
+    <div class="result-highlight">
+        <div class="result-card">
+            <strong>Estimated daily calories</strong>
+            <div class="result-value">{{ estimate.target|floatformat:0 }} kcal</div>
+            <p class="helper-text">Likely range {{ estimate.low|floatformat:0 }} to {{ estimate.high|floatformat:0 }} kcal.</p>
+        </div>
+        <div class="result-card">
+            <strong>Basal metabolic rate</strong>
+            <div class="result-value">{{ estimate.bmr|floatformat:0 }} kcal</div>
+            <p class="helper-text">Energy used at complete rest, before the activity factor.</p>
+        </div>
+    </div>
+
+    <p class="helper-text">This is an estimate of maintenance energy needs for a healthy adult, not medical advice. People with medical conditions, athletes, and anyone pregnant or breastfeeding should get a target from a clinician.</p>
+
+    <h2>Details</h2>
+    <ul class="meta-list">
+        <li><strong>Age</strong><br>{{ patient.age }}</li>
+        <li><strong>Sex</strong><br>{{ patient.get_sex_display }}</li>
+        <li><strong>Weight</strong><br>{{ patient.weight_kg }} kg</li>
+        <li><strong>Height</strong><br>{{ patient.height_cm }} cm</li>
+        <li><strong>Activity level</strong><br>{{ patient.get_activity_level_display }}</li>
+    </ul>
+
+    <div class="button-row">
+        <a class="btn" href="{% url 'view_history' patient.id %}">Calorie history</a>
+        <a class="btn btn-ghost" href="{% url 'edit_patient' patient.id %}">Edit</a>
+        <form method="post" action="{% url 'delete_patient' patient.id %}" class="inline-form"
+              onsubmit="return confirm('Delete {{ patient.name|escapejs }} and all logged calories?');">
+            {% csrf_token %}
+            <button type="submit" class="btn-ghost btn-danger">Delete</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,87 +1,86 @@
-{% extends "index_base.html" %}
+{% extends "base.html" %}
+{% load static %}
 
-{% block title %}Calorie History{% endblock %}
+{% block title %}Calorie history | Calorie Recommendation{% endblock %}
 
-{% block header %}Calorie Tracking for {{ patient.name }}{% endblock %}
+{% block header %}Calorie history for {{ patient.name }}{% endblock %}
 
 {% block content %}
+    <p class="helper-text">Logged daily intake compared with the estimated target of {{ patient.daily_calorie_target }} kcal/day.</p>
 
-<p class="helper-text">
-    This shows the logged daily calorie entries for {{ patient.name }}.  
-    Dates appear chronologically with recorded intake.
-</p>
+    {% if history %}
+        <div class="chart-container">
+            <canvas id="historyChart" width="800" height="300"></canvas>
+        </div>
 
-<div style="max-width:800px; margin: 30px auto;">
-    <canvas id="historyChart" width="800" height="300"></canvas>
-</div>
-
-{% if history %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Calories</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for entry in history %}
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>{{ entry.month }}/{{ entry.day }}/{{ entry.year }}</td>
-                    <td>{{ entry.calories }}</td>
+                    <th>Date</th>
+                    <th>Calories</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p class="helper-text">No logged history yet.</p>
-{% endif %}
+            </thead>
+            <tbody>
+                {% for entry in history %}
+                    <tr>
+                        <td>{{ entry.date|date:"M j, Y" }}</td>
+                        <td>{{ entry.calories }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="helper-text">No logged history yet.</p>
+    {% endif %}
 
-<div class="button-row">
-    <a class="btn btn-ghost" href="{% url 'track_calories' %}">Add entry</a>
-    <a class="btn" href="{% url 'view_patients' %}">Back to patients</a>
-</div>
-
+    <div class="button-row">
+        <a class="btn btn-ghost" href="{% url 'track_calories' %}?patient={{ patient.id }}">Add entry</a>
+        <a class="btn" href="{% url 'patient_detail' patient.id %}">Back to {{ patient.name }}</a>
+    </div>
 {% endblock %}
 
-
 {% block extra_scripts %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% if history %}
+        {{ chart|json_script:"chart-data" }}
+        <script src="{% static 'vendor/chart.umd.4.4.6.min.js' %}"></script>
+        <script>
+            const chart = JSON.parse(document.getElementById('chart-data').textContent);
 
-<script>
-    const labels = {{ labels|safe }};
-    const values = {{ values|safe }};
-
-    const ctx = document.getElementById('historyChart');
-
-    if (labels.length > 0) {
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Calories per Day',
-                    data: values,
-                    borderWidth: 2,
-                    borderColor: 'rgb(80, 140, 255)',
-                    backgroundColor: 'rgba(80, 140, 255, 0.25)',
-                    tension: 0.3,
-                    pointRadius: 4,
-                    pointHoverRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: true }
+            new Chart(document.getElementById('historyChart'), {
+                type: 'line',
+                data: {
+                    labels: chart.labels,
+                    datasets: [
+                        {
+                            label: 'Calories per day',
+                            data: chart.values,
+                            borderWidth: 2,
+                            borderColor: 'rgb(80, 140, 255)',
+                            backgroundColor: 'rgba(80, 140, 255, 0.25)',
+                            tension: 0.3,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        },
+                        {
+                            label: 'Estimated target',
+                            data: chart.labels.map(() => chart.target),
+                            borderWidth: 2,
+                            borderDash: [6, 6],
+                            borderColor: 'rgb(110, 231, 255)',
+                            pointRadius: 0
+                        }
+                    ]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        suggestedMax: Math.max(...values, 10)
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
                     }
                 }
-            }
-        });
-    }
-</script>
+            });
+        </script>
+    {% endif %}
 {% endblock %}

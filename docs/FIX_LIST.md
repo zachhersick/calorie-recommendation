@@ -1,6 +1,8 @@
 # Fix List
 
-Audit of the repository as of commit `2d9803e`. Items are ordered by priority inside each tier. Every item says what is wrong, where, why it matters, and what to do instead. Line numbers refer to that commit.
+Audit of the repository as of commit `2d9803e`.
+
+> **Status:** Every item below is addressed in code by the follow-up pull request that replaced the Keras model with the Mifflin-St Jeor equation. Two parts of P1-1 can't be done in a pull request and still need doing by hand: change the passwords for `su` and `zach` (and anywhere they were reused), and, if the repository is or was public, purge `db.sqlite3` from git history with `git filter-repo --path db.sqlite3 --invert-paths` followed by a force-push. Items are ordered by priority inside each tier. Every item says what is wrong, where, why it matters, and what to do instead. Line numbers refer to that commit.
 
 Tiers:
 

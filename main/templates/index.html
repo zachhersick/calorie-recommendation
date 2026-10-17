@@ -1,27 +1,33 @@
-{% extends "index_base.html" %}
+{% extends "base.html" %}
 
-{% block title %} Calorie Recommendation {% endblock %}
+{% block title %}Calorie Recommendation{% endblock %}
 
-{% block header %} Welcome to the Calorie Recommendation {% endblock %}
+{% block header %}Estimate daily calorie needs{% endblock %}
 
 {% block content %}
-    <div class="pill">Smarter calorie targets</div>
-    <h2>Personalized nutrition, powered by your patient data</h2>
-    <p>Input a few health markers and get a tailored daily caloric intake recommendation in seconds. Built for clinicians and nutrition enthusiasts who want quick, data-backed guidance.</p>
+    <div class="pill">Mifflin-St Jeor equation</div>
+    <h2>A transparent daily calorie estimate</h2>
+    <p>Enter age, sex, height, weight and activity level. The app estimates basal metabolic rate with the Mifflin-St Jeor equation and scales it by a standard activity factor to estimate total daily energy needs. You can then log daily intake and compare it with that target.</p>
 
     <div class="result-highlight">
         <div class="result-card">
-            <strong>Quick intake estimate</strong>
-            <div class="result-value">Instant</div>
-            <p class="helper-text">Streamlined input form with lean defaults.</p>
+            <strong>Method</strong>
+            <div class="result-value">BMR &times; activity</div>
+            <p class="helper-text">The same equation dietitians commonly start from. No black box.</p>
         </div>
         <div class="result-card">
-            <strong>Patient snapshots</strong>
-            <div class="result-value">Organized</div>
-            <p class="helper-text">See the key stats that inform every prediction.</p>
+            <strong>Accuracy</strong>
+            <div class="result-value">About &plusmn;10%</div>
+            <p class="helper-text">Individual needs vary. Treat the number as a starting point, not a prescription.</p>
         </div>
     </div>
 
-    <div class="spacer"></div>
-    <a class="btn" href="{% url 'view_patients' %}">Start a prediction</a>
+    <div class="button-row">
+        {% if user.is_authenticated %}
+            <a class="btn" href="{% url 'view_patients' %}">Go to patients</a>
+        {% else %}
+            <a class="btn" href="{% url 'users:login' %}">Log in</a>
+            <a class="btn btn-ghost" href="{% url 'users:signup' %}">Create an account</a>
+        {% endif %}
+    </div>
 {% endblock %}

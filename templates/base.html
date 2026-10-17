@@ -3,21 +3,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Calorie Recommendation{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/nav.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
 </head>
 
 <body class="page-body">
     <div id="app" class="page-shell">
         {% block nav %}
-            {% include "partials/_nav_main.html" %}
+            {% include "partials/_nav.html" %}
         {% endblock %}
         <main class="main-content">
             <header class="page-header">
                 <p class="eyebrow">Nutrition Assistant</p>
-                <h1>{% block header %}Welcome to the Calorie Recommendation{% endblock %}</h1>
+                <h1>{% block header %}Calorie Recommendation{% endblock %}</h1>
             </header>
             <section class="content-card">
                 {% block content %}{% endblock %}

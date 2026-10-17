@@ -1,31 +1,31 @@
-{% extends "index_base.html" %}
+{% extends "base.html" %}
 
-{% block title %}View Patients{% endblock %}
+{% block title %}Patients | Calorie Recommendation{% endblock %}
 
-{% block header %}Select a patient to run a prediction{% endblock %}
+{% block header %}Patients{% endblock %}
 
 {% block content %}
-    <p class="helper-text">Choose a patient and run a fresh calorie prediction. Add new patients anytime.</p>
-
     {% if patients %}
         <div class="result-highlight">
             {% for patient in patients %}
                 <div class="result-card">
                     <strong>{{ patient.name }}</strong>
-                    <div class="result-value" style="font-size:20px;">Age {{ patient.age }}</div>
-                    <p class="helper-text" style="margin-bottom:12px;">
-                        Gender: {{ patient.get_gender_display }}{% if patient.physical_activity_level %} · Activity: {{ patient.physical_activity_level }}{% endif %}
+                    <div class="result-value result-value-small">{{ patient.daily_calorie_target }} kcal/day</div>
+                    <p class="helper-text">
+                        Age {{ patient.age }} &middot; {{ patient.get_sex_display }} &middot; {{ patient.get_activity_level_display }}
                     </p>
-                    <a class="btn" href="{% url 'predict_result' patient.id %}">Run prediction</a>
-                    <a class="btn btn-small" href="{% url 'view_history' patient.id %}">View history</a>
-
+                    <div class="button-row button-row-tight">
+                        <a class="btn" href="{% url 'patient_detail' patient.id %}">Details</a>
+                        <a class="btn btn-ghost" href="{% url 'view_history' patient.id %}">History</a>
+                    </div>
                 </div>
             {% endfor %}
         </div>
-        <div class="spacer"></div>
-        <a class="btn btn-ghost" href="{% url 'new_patient' %}">Add patient</a>
+        <div class="button-row">
+            <a class="btn btn-ghost" href="{% url 'new_patient' %}">Add patient</a>
+        </div>
     {% else %}
-        <p class="helper-text">No patients yet. Add your first patient to run a prediction.</p>
+        <p class="helper-text">No patients yet. Add one to get a calorie estimate.</p>
         <a class="btn" href="{% url 'new_patient' %}">Add patient</a>
     {% endif %}
 {% endblock %}

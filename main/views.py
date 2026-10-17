@@ -1,79 +1,76 @@
-from django.shortcuts import render, redirect, get_object_or_404
-import time
+from django.contrib.auth.decorators import login_not_required
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
+
 from .forms import PatientForm, TrackCaloriesForm
-from .ml_predict import predict_daily_caloric_intake
-from main.models import Patient, History
+from .models import Patient
 
-# Create your views here.
+
+@login_not_required
 def home(request):
-    return render(request, 'index.html')
+    return render(request, "index.html")
 
-def new_patient(request):
-    if request.method == 'POST':
-        form = PatientForm(request.POST)
-        if form.is_valid():
-            patient = form.save()
-            return redirect('view_patients')
-    else:
-        form = PatientForm()
 
-    return render(request, 'new_patient.html', {'form': form})
+def _get_patient(request, patient_id):
+    return get_object_or_404(Patient, id=patient_id, owner=request.user)
 
-def predict_result(request, patient_id):
-    patient = get_object_or_404(Patient, id=patient_id)
-    prediction = predict_daily_caloric_intake(patient)
-    
-    context = {
-        'patient': patient,
-        'prediction': prediction
-    }
-    
-    return render(request, 'prediction_result.html', context)
 
 def view_patients(request):
-    patients = Patient.objects.all()
-    return render(request, 'view_patients.html', {'patients': patients})
+    patients = Patient.objects.filter(owner=request.user)
+    return render(request, "view_patients.html", {"patients": patients})
+
+
+def new_patient(request):
+    form = PatientForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        patient = form.save(commit=False)
+        patient.owner = request.user
+        patient.save()
+        return redirect("patient_detail", patient_id=patient.id)
+    return render(request, "patient_form.html", {"form": form})
+
+
+def edit_patient(request, patient_id):
+    patient = _get_patient(request, patient_id)
+    form = PatientForm(request.POST or None, instance=patient)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect("patient_detail", patient_id=patient.id)
+    return render(request, "patient_form.html", {"form": form, "patient": patient})
+
+
+@require_POST
+def delete_patient(request, patient_id):
+    _get_patient(request, patient_id).delete()
+    return redirect("view_patients")
+
+
+def patient_detail(request, patient_id):
+    patient = _get_patient(request, patient_id)
+    return render(request, "patient_detail.html", {
+        "patient": patient,
+        "estimate": patient.estimate(),
+    })
+
 
 def view_history(request, patient_id):
-    patient = get_object_or_404(Patient, id=patient_id)
-
-    history = History.objects.filter(patient=patient).order_by("year", "month", "day")
-
-    labels = [f"{h.month}/{h.day}/{h.year}" for h in history]
-    values = [h.calories for h in history]
-
-    return render(request, 'view_calorie_history.html', {
-        'patient': patient,
-        'history': history,
-        'labels': labels,
-        'values': values,
+    patient = _get_patient(request, patient_id)
+    history = patient.history.all()
+    return render(request, "view_calorie_history.html", {
+        "patient": patient,
+        "history": history,
+        "chart": {
+            "labels": [entry.date.isoformat() for entry in history],
+            "values": [entry.calories for entry in history],
+            "target": patient.daily_calorie_target,
+        },
     })
+
 
 def new_history(request):
-    if request.method == 'POST':
-        form = TrackCaloriesForm(request.POST)
-
-        patient_id = request.POST.get('patient_id')
-        if not patient_id:
-            return redirect('track_calories')  # fallback
-
-        patient = get_object_or_404(Patient, id=patient_id)
-
-        if form.is_valid():
-            entry = form.save(commit=False)
-            entry.patient = patient
-            entry.save()
-            return redirect('view_history', patient_id=patient.id)
-
-    else:
-        form = TrackCaloriesForm()
-
-    patients = Patient.objects.all()
-    return render(request, 'track_calories.html', {
-        'form': form,
-        'patients': patients
-    })
-
-
-
-
+    initial = {"patient": request.GET.get("patient")}
+    form = TrackCaloriesForm(request.POST or None, initial=initial, owner=request.user)
+    if request.method == "POST" and form.is_valid():
+        entry = form.save()
+        return redirect("view_history", patient_id=entry.patient_id)
+    return render(request, "track_calories.html", {"form": form})
